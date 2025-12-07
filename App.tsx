@@ -55,17 +55,38 @@ const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDa
           </div>
         </section>
 
+
+        {/* Featured Images Section */}
+        <section className="w-full px-4 md:px-10 mt-4 md:mt-10 mb-12 md:mb-20 max-w-screen-2xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+            <div className="w-full aspect-[4/3] bg-zinc-100 dark:bg-[#27272A] rounded-lg md:rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-500">
+              <img
+                src={PROJECTS[0].imageUrl}
+                alt="Featured Project 1"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="w-full aspect-[4/3] bg-zinc-100 dark:bg-[#27272A] rounded-lg md:rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-500">
+              <img
+                src={PROJECTS[1].imageUrl}
+                alt="Featured Project 2"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </section>
+
         {/* Introduction Section */}
         <section className="px-4 md:px-8 py-24 md:py-32 max-w-screen-2xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[40px] lg:gap-16">
             <div className="lg:col-span-7">
               <h2 className="text-4xl md:text-6xl font-medium leading-[1.1] mb-8 tracking-tight">
                 Hi, I'm Mudassir. I turn "wild ideas" into things that actually work.
               </h2>
               {/* Divider line */}
-              <div className="w-24 h-1.5 bg-zinc-900 dark:bg-[#FFFFFF] mb-8 transition-colors duration-300"></div>
+              <div className="w-24 h-1.5 bg-zinc-900 dark:bg-[#FFFFFF] mb-0 lg:mb-8 transition-colors duration-300"></div>
             </div>
-            <div className="lg:col-span-5 flex flex-col justify-between pt-2">
+            <div className="lg:col-span-5 flex flex-col justify-between pt-0 lg:pt-2">
               <p className="text-xl text-zinc-500 dark:text-[#A1A1AA] leading-relaxed mb-10 transition-colors duration-300">
                 Product Designer just trying to make tech less confusing. I've taken startups from zero assets to investor-ready MVPs and built AI interfaces that cure "blank canvas paralysis".
               </p>
@@ -96,20 +117,7 @@ const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDa
             ))}
           </div>
 
-          <div className="mt-32 border-t border-zinc-200 dark:border-[#3f3f46] pt-8 transition-colors duration-300">
-            <a href="#playground" className="group inline-flex items-center gap-6 text-4xl md:text-7xl font-bold hover:text-zinc-600 dark:hover:text-[#A1A1AA] transition-colors tracking-tight">
-              See playground
-              <span className="bg-zinc-100 dark:bg-[#27272A] rounded-full p-2 group-hover:bg-zinc-200 dark:group-hover:bg-[#3f3f46] transition-colors">
-                <MoveRight size={48} className="group-hover:translate-x-2 transition-transform duration-300" />
-              </span>
-            </a>
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div></div>
-              <p className="text-lg text-zinc-500 dark:text-[#A1A1AA] transition-colors duration-300">
-                Product designer specializing in crafting user-friendly products and brands with expertise in 3D Rendering, Motion Design, Product design, Prototyping and Front-end.
-              </p>
-            </div>
-          </div>
+
         </section>
 
         {/* Experience Section */}
