@@ -7,6 +7,7 @@ import PhysicsHeader from './components/PhysicsHeader';
 import ProjectCard from './components/ProjectCard';
 import ProjectDetail from './components/ProjectDetail';
 import Footer from './components/Footer';
+import StudioPage from './components/StudioPage';
 import { ArrowRight, Download, MoveRight, Moon, Sun } from 'lucide-react';
 
 const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDarkMode, toggleTheme }) => {
@@ -182,6 +183,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home isDarkMode={isDarkMode} toggleTheme={toggleTheme} />} />
           <Route path="/works/:slug" element={<ProjectDetail />} />
+          <Route path="/studio/*" element={<StudioPage />} />
         </Routes>
       </div>
     </BrowserRouter>
