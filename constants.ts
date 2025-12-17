@@ -2,49 +2,49 @@
 import { Experience, PhysicsItem, Project } from './types';
 
 export const HERO_PHYSICS_ITEMS: PhysicsItem[] = [
-  { id: '1', text: 'FUNCTIONAL DESIGN 🔭', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', width: 200 },
+  { id: '1', text: 'I MAKE FUNCTIONAL DESIGN 🔭', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', width: 200 },
   { id: '2', text: 'PRODUCT DESIGNER 🧑‍🎨', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', rotation: 15, width: 220 },
   { id: '3', text: 'BLR 📍', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', width: 100 },
   { id: '4', text: 'MOTION ANIMATION 🚁', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', rotation: -10, width: 210 },
-  { id: '5', type: 'icon', bgColor: '#a3e635', textColor: '#FFFFFF', isCircle: true, width: 80, height: 80 }, 
-  { 
-    id: '6', 
-    type: 'icon', 
-    bgColor: '#18181b', 
-    textColor: '#FFFFFF', 
-    isCircle: true, 
-    width: 80, 
-    height: 80, 
+  { id: '5', type: 'icon', bgColor: '#a3e635', textColor: '#FFFFFF', isCircle: true, width: 80, height: 80 },
+  {
+    id: '6',
+    type: 'icon',
+    bgColor: '#18181b',
+    textColor: '#FFFFFF',
+    isCircle: true,
+    width: 80,
+    height: 80,
     url: 'https://github.com/mudassirux',
     imageUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5OCA5NiI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00OC44NTQgMEMyMS44MzkgMCAwIDIyIDAgNDkuMjE3YzAgMjEuNzU2IDEzLjk5MyA0MC4xNzIgMzMuNDA1IDQ2LjY5IDIuNDI3LjQ5IDMuMzE2LTEuMDU5IDMuMzE2LTIuMzYyIDAtMS4xNDEtLjA4LTUuMDUyLS4wOC05LjEyNy0xMy41OSAyLjkzNC0xNi40Mi01Ljg2Ny0xNi40Mi01Ljg2Ny0yLjE4NC01LjcwNC01LjQyLTcuMTctNS40Mi03LjE3LTQuNDQ4LTMuMDE1LjMyNC0zLjAxNS4zMjQtMy4wMTUgNC45MzQuMzI2IDcuNTIzIDUuMDUyIDcuNTIzIDUuMDUyIDQuMzY3IDcuNDk2IDExLjQwNCA1LjM3OCAxNC4yMzUgNC4wNzQuNDA0LTMuMTc4IDEuNjk5LTUuMzc4IDMuMDc0LTYuNi0xMC44MzktMS4xNDEtMjIuMjQzLTUuMzc4LTIyLjI0My0yNC4yODMgMC01LjM3OCAxLjk0LTkuNzc4IDUuMDE0LTEzLjJjLS44ODUtMS4yMjItMi4xODQtNi4yNzUuNDg2LTEzLjAzOCAwIDAgNC4xMjUtMS4zMDQgMTMuNDI2IDUuMDUyYTQ2Ljk3IDQ2Ljk3IDAgMCAxIDEyLjIxNC0xLjYzYzQuMTI1IDAgOC4zMzAuNTcxIDEyLjIxMyAxLjYzIDkuMzAyLTYuMzU2IDEzLjQyNy01LjA1MiAxMy4yNy01LjA1MiAyLjY3IDYuNzYzLjk3IDExLjgxNi40ODUgMTMuMDM4IDMuMTU1IDMuNDIyIDUuMDE1IDcuODIyIDUuMDE1IDEzLjIgMCAxOC45MDUtMTEuNDA0IDIzLjA2LTIyLjMyNCAyNC4yODMgMS43OCAxLjU0OCAzLjMxNiA0LjQ4MSAzLjMxNiA5LjEyNiAwIDYuNi0uMDggMTEuODk3LS4wOCAxMy41MjYgMCAxLjMwNC44OSAyLjg1MyAzLjMxNiAyLjM2NCAxOS40MTItNi41MiAzMy40MDUtMjQuOTM1IDMzLjQwNS00Ni42OTFDOTcuNzA3IDIyIDc1Ljc4OCAwIDQ4Ljg1NCAweiIgZmlsbD0iI2ZmZmZmZiIvPjwvc3ZnPg=='
-  }, 
-  { 
-    id: '7', 
-    type: 'icon', 
-    bgColor: '#0077b5', 
-    textColor: '#FFFFFF', 
-    isCircle: true, 
-    width: 80, 
-    height: 80, 
+  },
+  {
+    id: '7',
+    type: 'icon',
+    bgColor: '#0077b5',
+    textColor: '#0077b5',
+    isCircle: true,
+    width: 80,
+    height: 80,
     url: 'https://www.linkedin.com/in/mudassirux/',
     imageUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xOSAwaC0xNGMtMi43NjEgMC01IDIuMjM5LTUgNXYxNGMwIDIuNzYxIDIuMjM5IDUgNSA1aDE0YzIuNzYyIDAgNS0yLjIzOSA1LTV2LTE0YzAtMi43NjEtMi4yMzgtNS01LTV6bS0xMSAxOWgtM3YtMTFoM3YxMXptLTEuNTc2LTEyLjcyYy0xLjA2NiAwLTEuOTM2LS44NjMtMS45MzYtMS45MjUgMC0xLjA2MS44Ny0xLjkyNiAxLjkzNi0xLjkyNiAxLjA3MyAwIDEuOTQ4Ljg2NSAxLjk0OCAxLjkyNiAwIDEuMDYyLS44NzUgMS45MjUtMS45NDggMS45MjV6bTEyLjU3NiAxMi43MmgtM3YtNS42MzVjMC0xLjM2MS0uMDI4LTMuMTEzLTEuODk1LTMuMTEzLTEuODk4IDAtMi4xODkgMS40ODUtMi4xODkgMy4wMjN2NS43MjVoLTN2LTExaDN2MS41NjFoLjA0MWMuNDE3LS43OSAxLjQzOC0xLjYyNSAyLjk2My0xLjYyNSAzLjE2OSAwIDMuNzU2IDIuMDg2IDMuNzU2IDQuNzk4djYuMjY2eiIvPjwvc3ZnPg=='
-  }, 
+  },
 ];
 
 export const PROJECTS: Project[] = [
   {
     id: 'p1',
     slug: 'n1-widgets',
-    title: 'N1 widgets',
+    title: 'Morphia',
     subtitle: 'UI/UX • System Design',
-    category: 'Branding UI/UX',
-    year: '2024',
-    role: 'UI Designer, Creative Director',
+    category: 'Co-founder,Lead Designer',
+    year: '2025',
+    role: 'Lead Designer, Co-founder',
     services: 'UI Animation, Type Designer',
     imageDescription: 'UI minimalistic widgets interface',
     imageUrl: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop',
     link: '#n1-widgets', // Legacy support
-    description: 'A comprehensive widget system designed for modularity and scalability. The goal was to create a cohesive visual language that adapts to various contexts while maintaining a distinct brand identity.',
+    description: 'It is an AI-powered image generator that creates ads, portraits, illustrations, icons and product visuals from simple text prompts. It gives you complete control over colors, styles, and aspect ratios, so every image fits your brand and your layout.',
     content: [
       {
         type: 'image-grid',

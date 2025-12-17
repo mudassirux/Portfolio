@@ -1,15 +1,32 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { PROJECTS, EXPERIENCES } from './constants';
+import { EXPERIENCES } from './constants';
+import { client, urlFor } from './client';
 import PhysicsHeader from './components/PhysicsHeader';
 import ProjectCard from './components/ProjectCard';
 import ProjectDetail from './components/ProjectDetail';
 import Footer from './components/Footer';
 import { ArrowRight, Download, MoveRight, Moon, Sun } from 'lucide-react';
 
-// Extract Home Layout
 const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDarkMode, toggleTheme }) => {
+  const [projects, setProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const query = `*[_type == "project"] | order(year desc)`;
+        // console.log("Fetching projects...");
+        const data = await client.fetch(query);
+        console.log("Fetched data in App:", data);
+        setProjects(data);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+    fetchProjects();
+  }, []);
+
   return (
     <div className="min-h-screen bg-white dark:bg-[#18181B] text-zinc-900 dark:text-[#FFFFFF] selection:bg-zinc-900 selection:text-white dark:selection:bg-white dark:selection:text-zinc-900 font-sans relative transition-colors duration-300">
 
@@ -58,29 +75,37 @@ const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDa
 
         {/* Featured Images Section */}
         <section className="w-full px-4 md:px-10 mt-4 md:mt-10 mb-12 md:mb-20 max-w-screen-2xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-            <div className="w-full aspect-[4/3] bg-zinc-100 dark:bg-[#27272A] rounded-lg md:rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-500">
-              <img
-                src={PROJECTS[0].imageUrl}
-                alt="Featured Project 1"
-                className="w-full h-full object-cover"
-              />
+          {projects.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+              <div className={`w-full aspect-[4/3] bg-zinc-100 dark:bg-[#27272A] rounded-lg md:rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-500 ${projects.length === 1 ? 'md:col-span-2' : ''}`}>
+                {projects[0].mainImage && (
+                  <img
+                    src={urlFor(projects[0].mainImage).width(3840).quality(100).fit('max').auto('format').url()}
+                    alt="Featured Project 1"
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+              {projects.length >= 2 && (
+                <div className="w-full aspect-[4/3] bg-zinc-100 dark:bg-[#27272A] rounded-lg md:rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-500">
+                  {projects[1].mainImage && (
+                    <img
+                      src={urlFor(projects[1].mainImage).width(1600).quality(100).fit('max').auto('format').url()}
+                      alt="Featured Project 2"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+              )}
             </div>
-            <div className="w-full aspect-[4/3] bg-zinc-100 dark:bg-[#27272A] rounded-lg md:rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-500">
-              <img
-                src={PROJECTS[1].imageUrl}
-                alt="Featured Project 2"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
+          )}
         </section>
 
         {/* Introduction Section */}
         <section className="px-4 md:px-8 py-24 md:py-32 max-w-screen-2xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-[40px] lg:gap-16">
             <div className="lg:col-span-7">
-              <h2 className="text-4xl md:text-6xl font-medium leading-[1.1] mb-8 tracking-tight">
+              <h2 className="text-4xl md:text-6xl font-medium leading-[1.1] mb-8 tracking-tight max-w-[11em]">
                 Hi, I'm Mudassir. I turn "wild ideas" into things that actually work.
               </h2>
               {/* Divider line */}
@@ -112,7 +137,7 @@ const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDa
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
-            {PROJECTS.map((project, index) => (
+            {projects.map((project, index) => (
               <ProjectCard key={index} project={project} />
             ))}
           </div>

@@ -1,20 +1,18 @@
 
-export type ContentBlock = 
-  | { type: 'image-grid'; images: string[] }
+export type ContentBlock =
+  | { type: 'image-grid'; images: any[] } // Sanity images
   | { type: 'split-text'; label: string; body: string }
-  | { type: 'gallery'; images: string[] }
-  | { type: 'image-full'; image: string };
+  | { type: 'gallery'; images: any[] }
+  | { type: 'image-full'; image: any; alt?: string };
 
 export interface Project {
-  // Existing fields required for Homepage
+  // Legacy/Frontend fields
   title: string;
   category: string;
   year: string;
   imageDescription: string;
   imageUrl: string;
-  link: string;
-
-  // New fields for Detail Page
+  link: string; // Legacy
   id: string;
   slug: string;
   subtitle?: string;
@@ -22,6 +20,22 @@ export interface Project {
   services: string;
   description: string;
   content: ContentBlock[];
+}
+
+export interface SanityProject {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  subtitle?: string;
+  category?: string;
+  year?: string;
+  role?: string;
+  services?: string;
+  description?: string;
+  mainImage?: any;
+  imageDescription?: string; // Add to schema if needed
+  link?: string;
+  content?: ContentBlock[];
 }
 
 export interface Experience {
