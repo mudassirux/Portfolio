@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Matter from 'matter-js';
 import { HERO_PHYSICS_ITEMS } from '../constants';
-import { Asterisk } from 'lucide-react';
+
 
 interface PhysicsHeaderProps {
   isDarkMode: boolean;
@@ -70,7 +70,7 @@ const PhysicsHeader: React.FC<PhysicsHeaderProps> = ({ isDarkMode }) => {
       const currentTextWidth = textElement ? textElement.offsetWidth : currentWidth;
       const spawnLeftBound = (currentWidth - currentTextWidth) / 2;
 
-      const bodies = HERO_PHYSICS_ITEMS.map((item, index) => {
+      const bodies = HERO_PHYSICS_ITEMS.map((item: any, index: number) => {
         const el = itemsRef.current[index];
         if (!el) return null;
 
@@ -103,7 +103,7 @@ const PhysicsHeader: React.FC<PhysicsHeaderProps> = ({ isDarkMode }) => {
           });
         }
         return body;
-      }).filter((b): b is Matter.Body => b !== null);
+      }).filter((b: Matter.Body | null): b is Matter.Body => b !== null);
 
       Composite.add(engine.world, bodies);
     }, 100);
@@ -130,7 +130,7 @@ const PhysicsHeader: React.FC<PhysicsHeaderProps> = ({ isDarkMode }) => {
       const bodies = Composite.allBodies(engine.world).filter(b => !b.isStatic);
 
       if (bodies.length === HERO_PHYSICS_ITEMS.length) {
-        bodies.forEach((body, index) => {
+        bodies.forEach((body: Matter.Body, index: number) => {
           const el = itemsRef.current[index];
           if (!el) return;
 
@@ -212,7 +212,7 @@ const PhysicsHeader: React.FC<PhysicsHeaderProps> = ({ isDarkMode }) => {
       className="absolute inset-0 w-full h-full overflow-hidden pointer-events-auto"
       style={{ touchAction: 'none' }}
     >
-      {HERO_PHYSICS_ITEMS.map((item, index) => {
+      {HERO_PHYSICS_ITEMS.map((item: any, index: number) => {
         // Determine styles based on dark mode
         let bgColor = item.bgColor;
         let textColor = item.textColor;
@@ -270,7 +270,9 @@ const PhysicsHeader: React.FC<PhysicsHeaderProps> = ({ isDarkMode }) => {
 
             {/* Green Asterisk */}
             {item.type === 'icon' && item.bgColor === '#a3e635' && !item.imageUrl && (
-              <Asterisk className="w-6 h-6 md:w-12 md:h-12 text-black" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="square" strokeLinejoin="miter" className="w-5 h-5 md:w-10 md:h-10">
+                <path d="M12 2 L12 12 M21.51 8.91 L12 12 M17.88 20.09 L12 12 M6.12 20.09 L12 12 M2.49 8.91 L12 12" />
+              </svg>
             )}
 
             {/* Image Items (GitHub / LinkedIn) */}

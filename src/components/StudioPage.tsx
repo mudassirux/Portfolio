@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Studio } from 'sanity';
-import config from '../sanity.config';
+import config from '../../sanity.config';
 
 const StudioPage: React.FC = () => {
     return (

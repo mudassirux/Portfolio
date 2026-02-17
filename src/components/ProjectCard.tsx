@@ -17,7 +17,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
   return (
     <Link to={`/works/${slug}`} className="group block w-full cursor-pointer">
-      <div className="relative w-full aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-[#27272A] mb-8 transition-colors duration-300">
+      <div className="relative w-full h-[396.5px] overflow-hidden bg-zinc-100 dark:bg-[#27272A] mb-8 transition-colors duration-300">
         {imageUrl && (
           <img
             src={imageUrl}

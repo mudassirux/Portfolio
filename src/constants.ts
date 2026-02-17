@@ -105,30 +105,41 @@ export const PROJECTS: Project[] = [
 
 export const EXPERIENCES: Experience[] = [
   {
-    year: '2023',
-    role: 'Creative Director',
-    company: 'Fisga',
+    year: '2026',
+    role: 'Co-Founder/Lead Designer',
+    company: 'Morphia',
+    description: [
+      'Designed and vibe coded (using figma, lovable and antigravity) a modular prompt composition interface that guides users through selecting styles, subjects, and actions, reducing "blank canvas paralysis" and enabling non-technical users to generate high-quality assets instantly.',
+      'Implemented specialized styles for distinct user segments (Designers, Marketers, Casual), creating dedicated paths for generating vector art, icons, and product ads that decreased asset production time by an estimated 55%.',
+      'Established a scalable design framework that allows for the seamless addition of new generative categories, ensuring the platform can expand to new use cases without disrupting the core user experience or visual consistency.'
+    ]
   },
   {
-    year: '2021',
-    role: 'Brand Consultant',
-    company: 'Freelance',
+    year: '2025',
+    role: 'Product Designer',
+    company: 'SurveyAgent',
+    description: [
+      'Translated the founder\'s "wild idea" into a tangible, investor-ready MVP, effectively moving the startup from zero assets to a production-ready product capable of securing seed funding.',
+      'Clarified a complex technical vision (Twilio & ElevenLabs integration) into a user-friendly "Agent Builder" "Lead Management" interface, ensuring the product was not just functional, but intuitive enough to generate immediate intent-to-use from beta testers.',
+      'Improved dashboard workflows, making navigation 60% faster for non-technical users and increasing overall platform adoption.',
+      'Conducted usability testing with 5+ early users, reducing onboarding friction and improving task completion time by 35%.',
+      'Worked with developers for a 100% consistent design-to-development handoff, ensuring smooth release cycles.'
+    ]
   },
   {
-    year: '2020',
-    role: 'Junior Brand Designer',
-    company: 'Creativio Agency',
-  },
-  {
-    year: '2019',
-    role: 'Design Intern',
-    company: 'Luxe Brands',
+    year: '2024',
+    role: 'Freelance/Personal Project',
+    company: 'Card Commune',
+    description: [
+      'Executed the complete design lifecycle (from research to high-fidelity UI) to solve the lack of transparency in finance, creating a prototype that explicitly highlights hidden charges and terms.',
+      'Designed a "Lounge Finder" tool that connects cardholders to 50+ airport and partner lounges worldwide, turning complex benefit tables into a simple, location-based search feature.',
+      'Validated the product logic by conducting usability testing with 5+ potential users, using their feedback to iterate on the design and ensure the financial data was easy to understand for non-experts.'
+    ]
   },
 ];
 
 export const SOCIAL_LINKS = [
-  { name: 'Instagram', url: '#' },
-  { name: 'Behance', url: '#' },
-  { name: 'Twitter', url: '#' },
-  { name: 'Dribble', url: '#' },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/mudassirux/' },
+  { name: 'Gmail', url: 'mailto:ansarimudassir18@gmail.com' },
+  { name: 'X', url: '#' },
 ];
