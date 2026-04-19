@@ -6,6 +6,11 @@ export const sectionType = defineType({
     type: 'object',
     fields: [
         defineField({
+            name: 'title',
+            title: 'Section Title (e.g. Overview)',
+            type: 'string',
+        }),
+        defineField({
             name: 'layout',
             title: 'Layout',
             type: 'string',
@@ -51,7 +56,14 @@ export const sectionType = defineType({
                         { name: 'url', title: 'URL', type: 'url' },
                         { name: 'caption', title: 'Caption', type: 'string' }
                     ]
-                }
+                },
+                { type: 'quoteBlock' },
+                { type: 'tableBlock' },
+                { type: 'beforeAfterBlock' },
+                { type: 'flowBlock' },
+                { type: 'tokensBlock' },
+                { type: 'metricsBlock' },
+                { type: 'learningsBlock' }
             ]
         }),
         defineField({
@@ -71,7 +83,14 @@ export const sectionType = defineType({
                         { name: 'url', title: 'URL', type: 'url' },
                         { name: 'caption', title: 'Caption', type: 'string' }
                     ]
-                }
+                },
+                { type: 'quoteBlock' },
+                { type: 'tableBlock' },
+                { type: 'beforeAfterBlock' },
+                { type: 'flowBlock' },
+                { type: 'tokensBlock' },
+                { type: 'metricsBlock' },
+                { type: 'learningsBlock' }
             ]
         }),
         defineField({
@@ -90,17 +109,25 @@ export const sectionType = defineType({
                         { name: 'url', title: 'URL', type: 'url' },
                         { name: 'caption', title: 'Caption', type: 'string' }
                     ]
-                }
+                },
+                { type: 'quoteBlock' },
+                { type: 'tableBlock' },
+                { type: 'beforeAfterBlock' },
+                { type: 'flowBlock' },
+                { type: 'tokensBlock' },
+                { type: 'metricsBlock' },
+                { type: 'learningsBlock' }
             ]
         })
     ],
     preview: {
         select: {
+            title: 'title',
             layout: 'layout'
         },
-        prepare({ layout }) {
+        prepare({ title, layout }) {
             return {
-                title: `Section (${layout})`
+                title: title || `Section (${layout})`
             }
         }
     }

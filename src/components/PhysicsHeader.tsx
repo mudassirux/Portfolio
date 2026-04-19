@@ -87,10 +87,10 @@ const PhysicsHeader: React.FC<PhysicsHeaderProps> = ({ isDarkMode }) => {
 
         let body;
         const commonOptions = {
-          friction: 0.9,
-          frictionAir: 0.04,
-          restitution: 0.2,
-          density: 0.005,
+          friction: 0.5,
+          frictionAir: 0.02,
+          restitution: 0.1,
+          density: 0.003,
           angle: (item.rotation || Math.random() * 20 - 10) * (Math.PI / 180),
         };
 

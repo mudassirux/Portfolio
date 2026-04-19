@@ -5,7 +5,7 @@ export const HERO_PHYSICS_ITEMS: PhysicsItem[] = [
   { id: '1', text: 'I MAKE FUNCTIONAL DESIGN 🔭', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', width: 200 },
   { id: '2', text: 'PRODUCT DESIGNER 🧑‍🎨', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', rotation: 15, width: 220 },
   { id: '3', text: 'BLR 📍', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', width: 100 },
-  { id: '4', text: 'MOTION ANIMATION 🚁', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', rotation: -10, width: 210 },
+  { id: '4', text: 'CO-FOUNDER @ MORPHIA ', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', rotation: -10, width: 210 },
   { id: '5', type: 'icon', bgColor: '#a3e635', textColor: '#FFFFFF', isCircle: true, width: 80, height: 80 },
   {
     id: '6',

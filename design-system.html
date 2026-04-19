@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mudassir Portfolio - Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-light: #FFFFFF;
+      --bg-dark: #18181B;
+      --border-light: #E4E4E7;
+      --border-dark: #3f3f46;
+      --text-light: #18181B;
+      --text-dark: #FFFFFF;
+      --text-secondary: #71717A;
+      --text-secondary-dark: #A1A1AA;
+      --card-bg-light: #FAFAFA;
+      --accent: #a3e635;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F4F4F5;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    header {
+      background: var(--bg-light);
+      border-bottom: 1px solid var(--border-light);
+      padding: 2rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    main {
+      padding: 4rem 0;
+    }
+
+    .section {
+      background: var(--bg-light);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .subsection {
+      margin-bottom: 2rem;
+    }
+
+    .subsection:last-child {
+      margin-bottom: 0;
+    }
+
+    .subsection-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .color-card {
+      background: #FAFAFA;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+    }
+
+    .color-swatch {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+
+    .color-info {
+      padding: 1rem;
+    }
+
+    .color-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .color-value {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .font-stack {
+      background: #FAFAFA;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border-light);
+    }
+
+    .font-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .font-preview {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .font-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .type-scale {
+      background: #FAFAFA;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .type-sample {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .type-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .spacing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 1rem;
+    }
+
+    .spacing-item {
+      background: #FAFAFA;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid var(--border-light);
+    }
+
+    .spacing-visual {
+      background: var(--accent);
+      margin: 0 auto 0.5rem;
+      border-radius: 4px;
+      height: 4px;
+    }
+
+    .spacing-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .component-card {
+      background: #FAFAFA;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid var(--border-light);
+    }
+
+    .component-label {
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      background: var(--text-light);
+      color: white;
+      border-radius: 9999px;
+      font-weight: 500;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #27272A;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      background: white;
+      color: var(--text-light);
+      border: 1px solid var(--border-light);
+      border-radius: 9999px;
+      font-weight: 500;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-light);
+    }
+
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      background: #F4F4F5;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-icon:hover {
+      background: #E4E4E7;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: rgba(228, 228, 231, 0.5);
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #52525B;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 4rem;
+      height: 4rem;
+      background: var(--text-light);
+      color: white;
+      border-radius: 9999px;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .logo-dark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 4rem;
+      height: 4rem;
+      background: white;
+      color: var(--text-light);
+      border-radius: 9999px;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .card {
+      background: white;
+      border-radius: 32px;
+      padding: 1rem;
+      border: 1px solid var(--border-light);
+      transition: all 0.3s;
+    }
+
+    .card:hover {
+      background: #F4F4F5;
+    }
+
+    .input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input:focus {
+      border-color: var(--text-light);
+    }
+
+    .divider {
+      width: 6rem;
+      height: 0.375rem;
+      background: var(--text-light);
+      border-radius: 4px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      background: #F4F4F5;
+      border-radius: 9999px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      background: #22C55E;
+      border-radius: 9999px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .table th {
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-secondary);
+    }
+
+    .table td {
+      font-size: 0.875rem;
+    }
+
+    .table code {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      background: #F4F4F5;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .code-block {
+      background: #18181B;
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.875rem;
+      overflow-x: auto;
+    }
+
+    .code-block .comment {
+      color: #71717A;
+    }
+
+    .code-block .string {
+      color: #a3e635;
+    }
+
+    .icon-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: #FAFAFA;
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+    }
+
+    .icon-item svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 1.5;
+    }
+
+    .icon-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Design System</h1>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      
+      <!-- Colors Section -->
+      <section class="section">
+        <h2 class="section-title">Colors</h2>
+        
+        <div class="subsection">
+          <h3 class="subsection-title">Primary Colors</h3>
+          <div class="color-grid">
+            <div class="color-card">
+              <div class="color-swatch" style="background: #FFFFFF; color: #18181B;">Light</div>
+              <div class="color-info">
+                <div class="color-name">Background Light</div>
+                <div class="color-value">#FFFFFF</div>
+              </div>
+            </div>
+            <div class="color-card">
+              <div class="color-swatch" style="background: #18181B; color: white;">Dark</div>
+              <div class="color-info">
+                <div class="color-name">Background Dark</div>
+                <div class="color-value">#18181B</div>
+              </div>
+            </div>
+            <div class="color-card">
+              <div class="color-swatch" style="background: #18181B; color: white;">Text</div>
+              <div class="color-info">
+                <div class="color-name">Primary Text Light</div>
+                <div class="color-value">#18181B</div>
+              </div>
+            </div>
+            <div class="color-card">
+              <div class="color-swatch" style="background: #FFFFFF; color: #18181B;">Text</div>
+              <div class="color-info">
+                <div class="color-name">Primary Text Dark</div>
+                <div class="color-value">#FFFFFF</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">Secondary Colors</h3>
+          <div class="color-grid">
+            <div class="color-card">
+              <div class="color-swatch" style="background: #71717A; color: white;">Gray 500</div>
+              <div class="color-info">
+                <div class="color-name">Text Secondary Light</div>
+                <div class="color-value">#71717A</div>
+              </div>
+            </div>
+            <div class="color-card">
+              <div class="color-swatch" style="background: #A1A1AA; color: #18181B;">Gray 400</div>
+              <div class="color-info">
+                <div class="color-name">Text Secondary Dark</div>
+                <div class="color-value">#A1A1AA</div>
+              </div>
+            </div>
+            <div class="color-card">
+              <div class="color-swatch" style="background: #E4E4E7; color: #18181B;">Gray 200</div>
+              <div class="color-info">
+                <div class="color-name">Border Light</div>
+                <div class="color-value">#E4E4E7</div>
+              </div>
+            </div>
+            <div class="color-card">
+              <div class="color-swatch" style="background: #3f3f46; color: white;">Gray 700</div>
+              <div class="color-info">
+                <div class="color-name">Border Dark</div>
+                <div class="color-value">#3f3f46</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">Accent Colors</h3>
+          <div class="color-grid">
+            <div class="color-card">
+              <div class="color-swatch" style="background: #a3e635; color: #18181B;">Accent</div>
+              <div class="color-info">
+                <div class="color-name">Accent / Lime</div>
+                <div class="color-value">#a3e635</div>
+              </div>
+            </div>
+            <div class="color-card">
+              <div class="color-swatch" style="background: #22C55E; color: white;">Status</div>
+              <div class="color-info">
+                <div class="color-name">Success Green</div>
+                <div class="color-value">#22C55E</div>
+              </div>
+            </div>
+            <div class="color-card">
+              <div class="color-swatch" style="background: #0077b5; color: white;">Social</div>
+              <div class="color-info">
+                <div class="color-name">LinkedIn Blue</div>
+                <div class="color-value">#0077b5</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Typography Section -->
+      <section class="section">
+        <h2 class="section-title">Typography</h2>
+        
+        <div class="subsection">
+          <h3 class="subsection-title">Font Families</h3>
+          
+          <div class="font-stack">
+            <div class="font-name">Inter — Primary Font</div>
+            <div class="font-preview" style="font-family: 'Inter', sans-serif;">The quick brown fox jumps over the lazy dog</div>
+            <div class="font-meta">Weights: 300 (Light), 400 (Regular), 500 (Medium), 600 (Semibold)</div>
+          </div>
+
+          <div class="font-stack">
+            <div class="font-name">Manrope — Secondary / Meta Font</div>
+            <div class="font-preview" style="font-family: 'Manrope', sans-serif;">The quick brown fox jumps over the lazy dog</div>
+            <div class="font-meta">Weights: 400, 500, 600 — Used for labels and metadata</div>
+          </div>
+
+          <div class="font-stack">
+            <div class="font-name">Space Grotesk — Display Font</div>
+            <div class="font-preview" style="font-family: 'Space Grotesk', sans-serif; font-size: 3rem;">MUDASSIR</div>
+            <div class="font-meta">Weights: 600, 700 — Used for hero headings</div>
+          </div>
+
+          <div class="font-stack">
+            <div class="font-name">Space Mono — Monospace Font</div>
+            <div class="font-preview" style="font-family: 'Space Mono', monospace;">12:34:56</div>
+            <div class="font-meta">Weights: 400, 700 — Used for code, timestamps, and tags</div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">Type Scale</h3>
+          
+          <div class="type-scale">
+            <div class="type-sample">
+              <span class="type-label">Hero — text-[15vw] xl:text-[14.5vw]</span>
+              <div style="font-size: 5rem; font-weight: 600; letter-spacing: -0.05em; line-height: 0.9; font-family: 'Space Grotesk', sans-serif; text-transform: uppercase;">MUDASSIR</div>
+            </div>
+          </div>
+
+          <div class="type-scale">
+            <div class="type-sample">
+              <span class="type-label">Section H2 — text-5xl md:text-6xl</span>
+              <div style="font-size: 3rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; font-family: 'Space Grotesk', sans-serif;">Selected Works</div>
+            </div>
+            <div class="type-sample">
+              <span class="type-label">Section H2 Large — text-5xl md:text-7xl</span>
+              <div style="font-size: 3.75rem; font-weight: 700; letter-spacing: -0.05em; line-height: 1; font-family: 'Space Grotesk', sans-serif;">Experiences</div>
+            </div>
+          </div>
+
+          <div class="type-scale">
+            <div class="type-sample">
+              <span class="type-label">Intro H2 — text-4xl md:text-6xl</span>
+              <div style="font-size: 2.5rem; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1;">Hi, I'm Mudassir.</div>
+            </div>
+          </div>
+
+          <div class="type-scale">
+            <div class="type-sample">
+              <span class="type-label">Card H3 — text-xl md:text-2xl</span>
+              <div style="font-size: 1.25rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.025em;">Project Title</div>
+            </div>
+          </div>
+
+          <div class="type-scale">
+            <div class="type-sample">
+              <span class="type-label">Body — text-lg</span>
+              <div style="font-size: 1.125rem; line-height: 1.7; color: #71717A;">Product Designer just trying to make tech less confusing.</div>
+            </div>
+            <div class="type-sample">
+              <span class="type-label">Body Intro — text-xl</span>
+              <div style="font-size: 1.25rem; line-height: 1.6; color: #71717A;">Product Designer just trying to make tech less confusing.</div>
+            </div>
+          </div>
+
+          <div class="type-scale">
+            <div class="type-sample">
+              <span class="type-label">Meta Label — text-xs uppercase tracking-[0.18em]</span>
+              <div style="font-family: 'Manrope', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em; color: #71717A;">2021 — 2024</div>
+            </div>
+            <div class="type-sample">
+              <span class="type-label">Tag — text-xs uppercase tracking-wider</span>
+              <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #52525B;">UI Design</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Spacing Section -->
+      <section class="section">
+        <h2 class="section-title">Spacing & Layout</h2>
+        
+        <div class="subsection">
+          <h3 class="subsection-title">Container & Gaps</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Value</th>
+                <th>Tailwind Class</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Container Max Width</td>
+                <td>1536px (xl: 1280px)</td>
+                <td><code>max-w-screen-2xl</code></td>
+              </tr>
+              <tr>
+                <td>Container Padding</td>
+                <td>16px / 40px / 64px</td>
+                <td><code>px-4 md:px-10 xl:px-16</code></td>
+              </tr>
+              <tr>
+                <td>Section Padding</td>
+                <td>96px / 128px</td>
+                <td><code>py-24 md:py-32</code></td>
+              </tr>
+              <tr>
+                <td>Grid Gap</td>
+                <td>16px / 32px</td>
+                <td><code>gap-4 md:gap-8</code></td>
+              </tr>
+              <tr>
+                <td>Card Grid Gap</td>
+                <td>40px / 96px</td>
+                <td><code>gap-y-20 md:gap-y-24</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">Border Radius</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Size</th>
+                <th>Value</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Full</td>
+                <td>9999px</td>
+                <td>Buttons, tags, pills, avatar, logo</td>
+              </tr>
+              <tr>
+                <td>Large</td>
+                <td>32px</td>
+                <td>Cards, featured images</td>
+              </tr>
+              <tr>
+                <td>Medium</td>
+                <td>24px</td>
+                <td>Card images, modals</td>
+              </tr>
+              <tr>
+                <td>Small</td>
+                <td>12px</td>
+                <td>Inputs, smaller cards</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Components Section -->
+      <section class="section">
+        <h2 class="section-title">Components</h2>
+        
+        <div class="subsection">
+          <h3 class="subsection-title">Buttons</h3>
+          <div class="component-grid">
+            <div class="component-card">
+              <div class="component-label">Primary Button</div>
+              <button class="btn-primary">
+                About Me
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+            <div class="component-card">
+              <div class="component-label">Secondary Button</div>
+              <button class="btn-secondary">
+                Resume
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              </button>
+            </div>
+            <div class="component-card">
+              <div class="component-label">Icon Button</div>
+              <button class="btn-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">Logo & Avatar</h3>
+          <div class="component-grid">
+            <div class="component-card">
+              <div class="component-label">Logo Light</div>
+              <div class="logo">M</div>
+            </div>
+            <div class="component-card">
+              <div class="component-label">Logo Dark</div>
+              <div style="padding: 1rem; background: #18181B; border-radius: 12px;">
+                <div class="logo-dark">M</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">Tags & Badges</h3>
+          <div class="component-grid">
+            <div class="component-card">
+              <div class="component-label">Project Tag</div>
+              <span class="tag">UI Design</span>
+            </div>
+            <div class="component-card">
+              <div class="component-label">Status Badge</div>
+              <div class="badge">
+                <span class="badge-dot"></span>
+                12:34:56
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">Cards</h3>
+          <div style="max-width: 400px;">
+            <div class="card">
+              <div style="aspect-ratio: 1.4; background: #E4E4E7; border-radius: 24px; margin-bottom: 1.5rem;"></div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2.5rem;">
+                <span style="font-size: 1.25rem; font-weight: 600; text-transform: uppercase;">Project</span>
+                <span style="color: #71717A; font-family: 'Space Mono', monospace; font-size: 0.875rem;">2024</span>
+              </div>
+              <div style="display: flex; gap: 0.5rem;">
+                <span class="tag">Design</span>
+                <span class="tag">Branding</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">Form Elements</h3>
+          <div style="max-width: 400px;">
+            <input type="text" class="input" placeholder="Enter your email">
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">Divider</h3>
+          <div class="divider"></div>
+        </div>
+      </section>
+
+      <!-- Icons Section -->
+      <section class="section">
+        <h2 class="section-title">Icons</h2>
+        <div class="subsection">
+          <h3 class="subsection-title">Icon Library: Lucide React</h3>
+          <div class="icon-grid">
+            <div class="icon-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              <span class="icon-label">ArrowRight</span>
+            </div>
+            <div class="icon-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              <span class="icon-label">Download</span>
+            </div>
+            <div class="icon-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+              <span class="icon-label">Moon</span>
+            </div>
+            <div class="icon-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+              <span class="icon-label">Sun</span>
+            </div>
+            <div class="icon-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+              <span class="icon-label">ArrowLeft</span>
+            </div>
+            <div class="icon-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span class="icon-label">Phone</span>
+            </div>
+            <div class="icon-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span class="icon-label">Mail</span>
+            </div>
+            <div class="icon-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+              <span class="icon-label">Linkedin</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Animation Section -->
+      <section class="section">
+        <h2 class="section-title">Animations & Transitions</h2>
+        <div class="subsection">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Value</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Color Transition</td>
+                <td><code>transition-colors duration-300</code></td>
+                <td>Hover states, theme toggle</td>
+              </tr>
+              <tr>
+                <td>Transform Transition</td>
+                <td><code>transition-transform duration-500</code></td>
+                <td>Cards, buttons</td>
+              </tr>
+              <tr>
+                <td>Hover Scale</td>
+                <td><code>hover:scale-[1.02]</code></td>
+                <td>Featured images</td>
+              </tr>
+              <tr>
+                <td>Hover Translate Y</td>
+                <td><code>hover:-translate-y-1</code></td>
+                <td>Social icons</td>
+              </tr>
+              <tr>
+                <td>Physics Item Shadow</td>
+                <td><code>shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]</code></td>
+                <td>Floating physics elements</td>
+              </tr>
+              <tr>
+                <td>Pulse Animation</td>
+                <td><code>animate-[pulse_2s_infinite]</code></td>
+                <td>Status indicator</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Shadow Section -->
+      <section class="section">
+        <h2 class="section-title">Shadows & Effects</h2>
+        <div class="subsection">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Value</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Physics Item Light</td>
+                <td><code>shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]</code></td>
+                <td>Floating elements on light background</td>
+              </tr>
+              <tr>
+                <td>Physics Item Dark</td>
+                <td><code>shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)]</code></td>
+                <td>Floating elements on dark background</td>
+              </tr>
+              <tr>
+                <td>Card Hover</td>
+                <td>Background color change only</td>
+                <td>Project cards on hover</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Code Usage Section -->
+      <section class="section">
+        <h2 class="section-title">Quick Reference</h2>
+        
+        <div class="subsection">
+          <h3 class="subsection-title">Tailwind Configuration</h3>
+          <div class="code-block">
+<span class="comment">// tailwind.config.js</span>
+{
+  <span class="string">darkMode</span>: <span class="string">'class'</span>,
+  theme: {
+    extend: {
+      <span class="string">fontFamily</span>: {
+        <span class="string">sans</span>: [<span class="string">'Inter'</span>, <span class="string">'sans-serif'</span>],
+        <span class="string">secondary</span>: [<span class="string">'Manrope'</span>, <span class="string">'sans-serif'</span>],
+        <span class="string">mono</span>: [<span class="string">'Space Mono'</span>, <span class="string">'monospace'</span>],
+      },
+    },
+  },
+}
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">Common Classes</h3>
+          <div class="code-block">
+<span class="comment">// Layout</span>
+<span class="string">max-w-screen-2xl mx-auto px-4 md:px-10 xl:px-16</span>
+<span class="string">py-24 md:py-32</span>  <span class="comment">// Section spacing</span>
+
+<span class="comment">// Typography</span>
+<span class="string">text-zinc-900 dark:text-[#FFFFFF]</span>
+<span class="string">font-sans</span>  <span class="comment">// Inter</span>
+<span class="string">font-secondary</span>  <span class="comment">// Manrope</span>
+<span class="string">font-mono</span>  <span class="comment">// Space Mono</span>
+<span class="string">tracking-tight</span>  <span class="comment">// Tight letter spacing</span>
+<span class="string">uppercase tracking-[0.18em]</span>  <span class="comment">// Meta labels</span>
+
+<span class="comment">// Borders</span>
+<span class="string">border-zinc-200 dark:border-[#3f3f46]</span>
+<span class="string">rounded-[32px]</span>  <span class="comment">// Cards</span>
+<span class="string">rounded-full</span>  <span class="comment">// Buttons, pills</span>
+
+<span class="comment">// Backgrounds</span>
+<span class="string">bg-white dark:bg-[#18181B]</span>
+<span class="string">bg-zinc-100 dark:bg-[#27272A]</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</body>
+</html>

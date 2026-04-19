@@ -34,6 +34,8 @@ const getIcon = (name: string) => {
 
 const Footer: React.FC = () => {
   const [time, setTime] = useState<string>('');
+  const layoutContainer = 'max-w-screen-2xl mx-auto px-4 md:px-10 xl:px-16';
+  const metaLabelClass = 'text-xs md:text-sm font-secondary text-zinc-500 dark:text-[#71717A] uppercase tracking-[0.18em]';
 
   useEffect(() => {
     const updateTime = () => {
@@ -46,9 +48,9 @@ const Footer: React.FC = () => {
   }, []);
 
   return (
-    <footer className="w-full px-4 md:px-16 pb-12 pt-32 bg-white dark:bg-[#18181B] transition-colors duration-300">
-      <div className="max-w-screen-2xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-40">
+    <footer className="w-full pb-[60px] pt-[60px] bg-white dark:bg-[#18181B] transition-colors duration-300">
+      <div className={layoutContainer}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-14 md:gap-16 mb-24 md:mb-32">
           <div>
             <h2 className="text-[12vw] md:text-[8vw] leading-[0.9] font-bold tracking-tighter mb-8 uppercase text-zinc-900 dark:text-[#FFFFFF]">
               LET'S GET<br />IN TOUCH
@@ -75,7 +77,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-end text-sm font-secondary text-zinc-500 dark:text-[#71717A] uppercase tracking-widest pt-8 border-t border-zinc-200 dark:border-[#3f3f46] transition-colors duration-300">
+        <div className={`flex flex-col md:flex-row justify-between items-end pt-8 transition-colors duration-300 ${metaLabelClass}`}>
           <div className="mb-4 md:mb-0 font-medium">
             &copy; {new Date().getFullYear()} Mudassir
           </div>

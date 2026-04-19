@@ -22,7 +22,49 @@ export const projectType = defineType({
         defineField({
             name: 'subtitle',
             title: 'Subtitle',
+            type: 'text',
+        }),
+        defineField({
+            name: 'subtitleItalic',
+            title: 'Subtitle Italic Phrase',
             type: 'string',
+        }),
+        defineField({
+            name: 'eyebrow',
+            title: 'Eyebrow',
+            type: 'string',
+            description: 'e.g. Product Design · 2025 – Present'
+        }),
+        defineField({
+            name: 'liveLink',
+            title: 'Live Link',
+            type: 'url',
+        }),
+        defineField({
+            name: 'liveLinkLabel',
+            title: 'Live Link Label',
+            type: 'string',
+        }),
+        defineField({
+            name: 'accentColor',
+            title: 'Accent Color',
+            type: 'string',
+            description: 'Hex code e.g. #13BBAF'
+        }),
+        defineField({
+            name: 'heroMeta',
+            title: 'Hero Metadata Pills',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    name: 'metaItem',
+                    fields: [
+                        { name: 'label', type: 'string', title: 'Label' },
+                        { name: 'value', type: 'string', title: 'Value' }
+                    ]
+                }
+            ]
         }),
         defineField({
             name: 'category',
@@ -247,6 +289,14 @@ export const projectType = defineType({
                         }
                     }
                 },
+                // Custom specific blocks
+                { type: 'quoteBlock' },
+                { type: 'tableBlock' },
+                { type: 'beforeAfterBlock' },
+                { type: 'flowBlock' },
+                { type: 'tokensBlock' },
+                { type: 'metricsBlock' },
+                { type: 'learningsBlock' },
                 // Section Block
                 {
                     type: 'section'

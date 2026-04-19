@@ -1,158 +1,247 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { client, urlFor } from '../client';
 import { SanityProject } from '../types';
+import PremiumProjectLayout from './PremiumProjectLayout';
 
-const BlockRenderer: React.FC<{ block: any }> = ({ block }) => {
-    const blockType = block._type || block.type;
+type MediaKind = 'image' | 'video';
 
-    switch (blockType) {
-        case 'section': {
-            const { layout, padding = {} } = block;
-            const style = {
-                paddingTop: padding.top ? `${padding.top}px` : undefined,
-                paddingBottom: padding.bottom ? `${padding.bottom}px` : undefined,
-                paddingLeft: padding.left ? `${padding.left}px` : undefined,
-                paddingRight: padding.right ? `${padding.right}px` : undefined,
-            };
+interface CaseStudyMedia {
+    id: string;
+    kind: MediaKind;
+    src?: string;
+    alt?: string;
+    caption?: string;
+    videoUrl?: string;
+}
 
-            if (layout === '1-col') {
-                return (
-                    <div style={style} className="w-full">
-                        {block.content?.map((child: any, i: number) => (
-                            <BlockRenderer key={child._key || i} block={child} />
-                        ))}
-                    </div>
-                );
-            }
+interface CaseStudySection {
+    id: string;
+    index: number;
+    title: string;
+    body: string;
+    media: CaseStudyMedia;
+}
 
-            // 2-Column Layouts
-            let gridColsClass = 'grid-cols-1 md:grid-cols-2'; // Default 50/50
-            if (layout === '2-col-40-60') gridColsClass = 'grid-cols-1 md:grid-cols-[2fr_3fr]';
-            if (layout === '2-col-60-40') gridColsClass = 'grid-cols-1 md:grid-cols-[3fr_2fr]';
+const resolveImageSrc = (image: any, width: number) => {
+    if (!image) return '';
+    if (typeof image === 'string') return image;
+    if (image.url) return image.url;
 
-            return (
-                <div style={style} className={`grid ${gridColsClass} gap-8 md:gap-16 w-full`}>
-                    <div className="flex flex-col gap-8">
-                        {block.leftColumn?.map((child: any, i: number) => (
-                            <BlockRenderer key={child._key || i} block={child} />
-                        ))}
-                    </div>
-                    <div className="flex flex-col gap-8">
-                        {block.rightColumn?.map((child: any, i: number) => (
-                            <BlockRenderer key={child._key || i} block={child} />
-                        ))}
-                    </div>
-                </div>
-            );
+    try {
+        return urlFor(image).width(width).quality(95).fit('max').auto('format').url();
+    } catch {
+        return '';
+    }
+};
+
+const getBlockType = (block: any) => block?._type || block?.type;
+
+const flattenContentBlocks = (blocks: any[] = []): any[] => {
+    const flattened: any[] = [];
+
+    blocks.forEach((block) => {
+        if (!block) return;
+
+        if (getBlockType(block) === 'section') {
+            const nestedBlocks = [
+                ...(Array.isArray(block.content) ? block.content : []),
+                ...(Array.isArray(block.leftColumn) ? block.leftColumn : []),
+                ...(Array.isArray(block.rightColumn) ? block.rightColumn : []),
+            ];
+            flattened.push(...flattenContentBlocks(nestedBlocks));
+            return;
         }
 
-        case 'richText':
-            return (
-                <div className="prose prose-invert max-w-none prose-lg">
-                    {block.content?.map((b: any, i: number) => {
-                        if (b._type === 'block') {
-                            const Tag = b.style || 'p';
-                            // Simple text rendering for now
-                            return React.createElement(
-                                ['h1', 'h2', 'h3', 'h4', 'blockquote'].includes(Tag) ? Tag : 'p',
-                                { key: i, className: 'mb-4' },
-                                b.children?.map((c: any) => c.text).join('')
-                            );
-                        }
-                        return null;
-                    })}
-                </div>
-            );
+        flattened.push(block);
+    });
 
-        case 'image': // Standard image in block content
-        case 'image-full':
-            const image = block.image || block; // Handle both wrapper and direct
-            if (!image?.asset && !image?.url) return null;
-            return (
-                <div className="w-full mb-8 last:mb-0">
-                    <img
-                        src={urlFor(image).width(3840).quality(100).fit('max').auto('format').url()}
-                        alt={block.alt || "Project Image"}
-                        className="w-full h-auto object-cover rounded-sm"
-                    />
-                </div>
-            );
+    return flattened;
+};
 
-        case 'video':
-            return (
-                <div className="w-full aspect-video bg-zinc-900 mb-8 last:mb-0">
-                    {block.url ? (
-                        <iframe
-                            src={block.url.replace('watch?v=', 'embed/')}
-                            className="w-full h-full"
-                            allowFullScreen
-                            title={block.caption || 'Video'}
-                        />
-                    ) : (
-                        <div className="flex items-center justify-center h-full text-zinc-500">Video Placeholder</div>
-                    )}
-                    {block.caption && <p className="text-sm text-zinc-500 mt-2">{block.caption}</p>}
-                </div>
-            );
+const textFromPortableBlock = (block: any) => {
+    if (block?._type !== 'block') return '';
+    return (block.children || []).map((child: any) => child.text || '').join('').trim();
+};
 
-        case 'divider':
-            const borderStyle = block.style || 'solid';
-            return <div className="w-full my-8 border-t border-zinc-700" style={{ borderStyle }} />;
+const extractNarrativeFromRichText = (block: any) => {
+    const portableBlocks = Array.isArray(block.content) ? block.content : [];
+    let title = '';
+    const bodyLines: string[] = [];
 
-        case 'padding':
-            return <div style={{ height: block.height ? `${block.height}px` : '50px' }} />;
+    portableBlocks.forEach((portableBlock: any) => {
+        const text = textFromPortableBlock(portableBlock);
+        if (!text) return;
 
-        // --- Existing Legacy Blocks ---
-        case 'image-grid':
-            return (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-12">
-                    {block.images?.map((img: any, i: number) => (
-                        <div key={i} className="aspect-[4/3] w-full overflow-hidden bg-zinc-900">
-                            <img
-                                src={urlFor(img).width(1600).quality(100).fit('max').auto('format').url()}
-                                alt={`Grid ${i}`}
-                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                            />
-                        </div>
-                    ))}
-                </div>
-            );
+        const style = portableBlock.style || 'normal';
+        if (!title && ['h1', 'h2', 'h3', 'h4'].includes(style)) {
+            title = text;
+            return;
+        }
 
-        case 'split-text':
-            return (
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 border-t border-zinc-800 pt-12 mb-12">
-                    <div className="md:col-span-4 lg:col-span-3">
-                        <h3 className="text-lg font-medium text-zinc-400 uppercase tracking-wide">{block.label}</h3>
-                    </div>
-                    <div className="md:col-span-8 lg:col-span-9">
-                        <p className="text-xl md:text-3xl font-light leading-relaxed text-zinc-100">
-                            {block.body}
-                        </p>
-                    </div>
-                </div>
-            );
+        bodyLines.push(text);
+    });
 
-        case 'gallery':
-            return (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
-                    {block.images?.map((img: any, i: number) => (
-                        <div key={i} className={`aspect-square w-full overflow-hidden bg-zinc-900 ${i % 3 === 0 ? 'md:col-span-2 md:row-span-2' : ''}`}>
-                            <img
-                                src={urlFor(img).width(1200).quality(100).fit('max').auto('format').url()}
-                                alt={`Gallery ${i}`}
-                                className="w-full h-full object-cover hover:opacity-80 transition-opacity duration-300"
-                            />
-                        </div>
-                    ))}
-                </div>
-            );
+    return {
+        title,
+        body: bodyLines.join(' '),
+    };
+};
 
-        default:
-            return null;
+const toEmbeddedVideoUrl = (url: string) => {
+    if (!url) return '';
+    if (url.includes('watch?v=')) return url.replace('watch?v=', 'embed/');
+    return url;
+};
+
+const buildCaseStudySections = (project: SanityProject): CaseStudySection[] => {
+    const sections: CaseStudySection[] = [];
+    const flattenedBlocks = flattenContentBlocks(Array.isArray(project.content) ? project.content : []);
+
+    let activeTitle = 'Context';
+    let activeBody = '';
+    let sectionCounter = 1;
+
+    const pushMediaSection = (media: CaseStudyMedia) => {
+        const sectionNumber = String(sectionCounter).padStart(2, '0');
+        const sectionTitle = activeTitle.trim() || `Section ${sectionNumber}`;
+
+        sections.push({
+            id: `section-${sectionCounter}-${media.id}`,
+            index: sectionCounter,
+            title: sectionTitle,
+            body: activeBody.trim(),
+            media,
+        });
+
+        sectionCounter += 1;
+        activeBody = '';
+    };
+
+    flattenedBlocks.forEach((block: any, blockIndex: number) => {
+        const blockType = getBlockType(block);
+
+        if (blockType === 'split-text') {
+            activeTitle = (block.label || '').trim() || `Section ${String(sectionCounter).padStart(2, '0')}`;
+            activeBody = (block.body || '').trim();
+            return;
+        }
+
+        if (blockType === 'richText') {
+            const narrative = extractNarrativeFromRichText(block);
+            if (narrative.title) activeTitle = narrative.title;
+            if (narrative.body) activeBody = narrative.body;
+            return;
+        }
+
+        if (blockType === 'image' || blockType === 'image-full') {
+            const image = block.image || block;
+            const src = resolveImageSrc(image, 3200);
+            if (!src) return;
+
+            pushMediaSection({
+                id: `image-${block._key || blockIndex}`,
+                kind: 'image',
+                src,
+                alt: block.alt || activeTitle || project.title,
+                caption: block.caption || '',
+            });
+            return;
+        }
+
+        if (blockType === 'image-grid' || blockType === 'gallery') {
+            const images = Array.isArray(block.images) ? block.images : [];
+            images.forEach((image: any, imageIndex: number) => {
+                const src = resolveImageSrc(image, 2400);
+                if (!src) return;
+
+                pushMediaSection({
+                    id: `${blockType}-${block._key || blockIndex}-${imageIndex}`,
+                    kind: 'image',
+                    src,
+                    alt: activeTitle || project.title,
+                    caption: '',
+                });
+            });
+            return;
+        }
+
+        if (blockType === 'video') {
+            const videoUrl = toEmbeddedVideoUrl(block.url || '');
+            if (!videoUrl) return;
+
+            pushMediaSection({
+                id: `video-${block._key || blockIndex}`,
+                kind: 'video',
+                videoUrl,
+                caption: block.caption || '',
+            });
+        }
+    });
+
+    const heroImageSrc = resolveImageSrc(project.mainImage, 3600);
+
+    if (heroImageSrc) {
+        sections.unshift({
+            id: 'section-hero',
+            index: 0,
+            title: 'Overview',
+            body: (project.description || '').trim(),
+            media: {
+                id: 'hero-image',
+                kind: 'image',
+                src: heroImageSrc,
+                alt: project.mainImage?.alt || project.title,
+                caption: '',
+            },
+        });
     }
+
+    if (sections.length === 0 && heroImageSrc) {
+        sections.push({
+            id: 'section-fallback',
+            index: 1,
+            title: 'Overview',
+            body: (project.description || '').trim(),
+            media: {
+                id: 'fallback-image',
+                kind: 'image',
+                src: heroImageSrc,
+                alt: project.mainImage?.alt || project.title,
+                caption: '',
+            },
+        });
+    }
+
+    return sections.map((section, index) => ({
+        ...section,
+        index: index + 1,
+    }));
+};
+
+const SectionMedia: React.FC<{ media: CaseStudyMedia }> = ({ media }) => {
+    return (
+        <figure className="w-full aspect-[16/10] bg-zinc-200 overflow-hidden">
+            {media.kind === 'video' && media.videoUrl ? (
+                <iframe
+                    src={media.videoUrl}
+                    className="w-full h-full"
+                    allowFullScreen
+                    title={media.caption || 'Project video'}
+                />
+            ) : (
+                <img
+                    src={media.src || ''}
+                    alt={media.alt || 'Project visual'}
+                    className="w-full h-full object-cover"
+                />
+            )}
+            {media.caption && (
+                <figcaption className="mt-3 text-sm text-zinc-500">{media.caption}</figcaption>
+            )}
+        </figure>
+    );
 };
 
 const ProjectDetail: React.FC = () => {
@@ -160,6 +249,9 @@ const ProjectDetail: React.FC = () => {
     const navigate = useNavigate();
     const [project, setProject] = useState<SanityProject | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+
+    const layoutContainer = 'w-full px-4 md:px-10 xl:px-[64px]';
+    const metaLabelClass = 'block text-zinc-500 mb-1 font-secondary uppercase tracking-[0.2em] text-xs';
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -169,100 +261,131 @@ const ProjectDetail: React.FC = () => {
             try {
                 const query = `*[_type == "project" && slug.current == $slug][0]`;
                 const data = await client.fetch(query, { slug });
-
-                if (data) {
-                    setProject(data);
-                } else {
-                    // Handle specific 404 or just stay null
-                }
+                setProject(data || null);
             } catch (error) {
-                console.error("Error fetching project:", error);
+                console.error('Error fetching project:', error);
             } finally {
                 setIsLoading(false);
             }
         };
 
-        if (slug) {
-            fetchProject();
-        }
+        if (slug) fetchProject();
     }, [slug]);
+
+    const sections = useMemo(() => {
+        if (!project) return [];
+        return buildCaseStudySections(project);
+    }, [project]);
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-[#111111] text-white flex items-center justify-center">
-                <div className="animate-pulse">Loading...</div>
+            <div className="min-h-screen bg-zinc-100 text-zinc-900 flex items-center justify-center">
+                <div className="text-sm font-secondary uppercase tracking-[0.18em] text-zinc-500">Loading</div>
             </div>
         );
     }
 
     if (!project) {
         return (
-            <div className="min-h-screen bg-[#111111] text-white flex items-center justify-center">
+            <div className="min-h-screen bg-zinc-100 text-zinc-900 flex items-center justify-center">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold mb-4">Project not found</h2>
-                    <button onClick={() => navigate('/')} className="text-zinc-400 hover:text-white transition-colors">Go Back Home</button>
+                    <h2 className="text-2xl font-semibold mb-4">Project not found</h2>
+                    <button onClick={() => navigate('/')} className="text-zinc-600 hover:text-zinc-900 transition-colors">
+                        Go Back Home
+                    </button>
                 </div>
             </div>
         );
     }
 
+    const isPremiumLayout = slug === 'morphia' || slug === 'survey-agent' || !!((project as any).accentColor || (project as any).eyebrow || (project as any).heroMeta);
+
+    if (isPremiumLayout) {
+        return <PremiumProjectLayout project={project} />;
+    }
+
     return (
-        <div className="min-h-screen bg-[#111111] text-white font-sans selection:bg-white selection:text-black">
-            {/* Navigation */}
-            <nav className="fixed top-0 left-0 w-full px-4 md:px-10 py-6 z-50 flex justify-between items-center mix-blend-difference">
-                <Link to="/" className="group flex items-center gap-2 text-white hover:text-zinc-300 transition-colors">
-                    <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-                    <span className="font-medium">Back to Home</span>
-                </Link>
+        <div className="min-h-screen bg-zinc-100 text-zinc-900 font-sans selection:bg-zinc-900 selection:text-zinc-100">
+            <nav className="fixed top-0 left-0 w-full py-5 z-50 bg-zinc-100/90 backdrop-blur-sm border-b border-zinc-200">
+                <div className={`${layoutContainer} flex justify-between items-center`}>
+                    <Link to="/" className="group flex items-center gap-2 text-zinc-900 hover:text-zinc-600 transition-colors">
+                        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+                        <span className="font-medium">Back to Home</span>
+                    </Link>
+                </div>
             </nav>
 
-            <div className="max-w-screen-2xl mx-auto px-4 md:px-8 pt-32 pb-24">
-                {/* Header Section */}
-                <header className="mb-24 md:mb-32 animate-[fadeIn_0.6s_ease-out]">
-                    <h1 className="text-5xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8 md:mb-12 uppercase leading-[0.9]">
+            <main className={`${layoutContainer} pt-28 md:pt-32 pb-20 md:pb-28`}>
+                <header className="pb-14 md:pb-16 border-b border-zinc-300">
+                    <span className="text-xs font-secondary uppercase tracking-[0.18em] text-zinc-500">Case Study</span>
+                    <h1 className="mt-4 text-4xl md:text-6xl lg:text-7xl font-medium tracking-[-0.03em] uppercase leading-[0.95]">
                         {project.title}
                     </h1>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
-                        <div className="lg:col-span-8">
-                            <p className="text-xl md:text-2xl lg:text-3xl font-light text-zinc-300 leading-relaxed">
-                                {project.description}
-                            </p>
-                        </div>
-                        <div className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-8 text-sm md:text-base border-t border-zinc-800 pt-8 lg:border-none lg:pt-0">
+                    <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12">
+                        <p className="lg:col-span-8 text-lg md:text-2xl leading-[1.3] text-zinc-800 max-w-[32ch]">
+                            {project.description}
+                        </p>
+                        <aside className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
                             <div>
-                                <span className="block text-zinc-500 mb-1 font-secondary uppercase tracking-widest text-xs">Year</span>
-                                <span className="block font-medium">{project.year}</span>
+                                <span className={metaLabelClass}>Year</span>
+                                <span className="block text-lg md:text-xl font-medium">{project.year || 'N/A'}</span>
                             </div>
                             <div>
-                                <span className="block text-zinc-500 mb-1 font-secondary uppercase tracking-widest text-xs">Role</span>
-                                <span className="block font-medium">{project.role}</span>
+                                <span className={metaLabelClass}>Role</span>
+                                <span className="block text-lg md:text-xl font-medium">{project.role || 'N/A'}</span>
                             </div>
                             <div>
-                                <span className="block text-zinc-500 mb-1 font-secondary uppercase tracking-widest text-xs">Services</span>
-                                <span className="block font-medium">{project.services}</span>
+                                <span className={metaLabelClass}>Services</span>
+                                <span className="block text-lg md:text-xl font-medium">{project.services || 'N/A'}</span>
                             </div>
-                        </div>
+                        </aside>
                     </div>
                 </header>
 
-                {/* Content Loop */}
-                <div className="flex flex-col gap-24 md:gap-40">
-                    {project.content?.map((block: any, index: number) => (
-                        <BlockRenderer key={block._key || index} block={block} />
+                <div className="mt-14 md:mt-16">
+                    {sections.map((section) => (
+                        <section key={section.id} className="mb-16 md:mb-20">
+                            <div className="border-t border-zinc-300 pt-6 md:pt-8 mb-6 md:mb-8 grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-8">
+                                <div className="md:col-span-2">
+                                    <span className="text-xs font-secondary uppercase tracking-[0.18em] text-zinc-500">
+                                        Section {String(section.index).padStart(2, '0')}
+                                    </span>
+                                </div>
+                                <div className="md:col-span-10">
+                                    <h2 className="text-2xl md:text-4xl font-medium tracking-[-0.02em] text-zinc-900">
+                                        {section.title}
+                                    </h2>
+                                    {section.body && (
+                                        <p className="mt-3 md:mt-4 text-base md:text-lg leading-relaxed text-zinc-700 max-w-[72ch]">
+                                            {section.body}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            <SectionMedia media={section.media} />
+                        </section>
                     ))}
                 </div>
 
-                {/* Footer Navigation */}
-                <div className="mt-40 pt-20 border-t border-zinc-800 flex justify-between items-center">
-                    <Link to="/" className="text-4xl md:text-6xl font-bold hover:text-zinc-500 transition-colors tracking-tighter">
-                        Next Project
-                    </Link>
-                    <Link to="/" className="text-sm font-secondary text-zinc-500 hover:text-white transition-colors uppercase tracking-widest">
-                        Back to Home
-                    </Link>
-                </div>
-            </div>
+                <section className="mt-20 md:mt-24 border-t border-zinc-300 pt-12 md:pt-16 pb-4">
+                    <div className="max-w-3xl">
+                        <h2 className="text-3xl md:text-5xl font-medium tracking-[-0.02em] leading-[1]">
+                            Have a project in mind?
+                        </h2>
+                        <p className="mt-5 text-lg md:text-xl text-zinc-700 leading-relaxed">
+                            Let&apos;s build something clear, useful, and memorable.
+                        </p>
+                        <a
+                            href="mailto:ansarimudassir18@gmail.com"
+                            className="inline-flex items-center justify-center mt-8 px-8 py-3 border border-zinc-400 rounded-full text-sm md:text-base uppercase tracking-[0.14em] hover:bg-zinc-900 hover:text-zinc-100 transition-colors"
+                        >
+                            Contact
+                        </a>
+                    </div>
+                </section>
+            </main>
         </div>
     );
 };
