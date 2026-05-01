@@ -1,41 +1,46 @@
 
 export type ContentBlock =
-  | { type: 'image-grid'; images: any[] } // Sanity images
-  | { type: 'split-text'; label: string; body: string }
-  | { type: 'gallery'; images: any[] }
-  | { type: 'image-full'; image: any; alt?: string };
+  | { _type: 'section'; title?: string; leftColumn?: any[]; content?: any[]; rightColumn?: any[] }
+  | { _type: 'split-text'; label: string; body?: string }
+  | { _type: 'richText'; content: any[] }
+  | { _type: 'quoteBlock'; text: string }
+  | { _type: 'tableBlock'; columns: string[]; rows: any[]; highlightRow?: number }
+  | { _type: 'beforeAfterBlock'; before: { label: string; items: string[] }; after: { label: string; items: string[] } }
+  | { _type: 'flowBlock'; steps: { title: string; desc: string; active?: boolean }[] }
+  | { _type: 'tokensBlock'; items: { name: string; hex: string; border?: boolean }[] }
+  | { _type: 'metricsBlock'; items: { value: string; label: string }[] }
+  | { _type: 'learningsBlock'; items: { num: string; title: string; body: string }[] }
+  | { _type: 'image'; image: any; alt?: string; caption?: string }
+  | { _type: 'image-full'; image: any; alt?: string; caption?: string }
+  | { _type: 'image-grid'; images: any[] }
+  | { _type: 'gallery'; images: any[] }
+  | { _type: 'divider' }
+  | { _type: 'padding' };
 
-export interface Project {
-  // Legacy/Frontend fields
-  title: string;
-  category: string;
-  year: string;
-  imageDescription: string;
-  imageUrl: string;
-  link: string; // Legacy
-  id: string;
-  slug: string;
-  subtitle?: string;
-  role: string;
-  services: string;
-  description: string;
-  content: ContentBlock[];
+export interface MetaItem {
+  label: string;
+  value: string;
 }
 
-export interface SanityProject {
-  _id: string;
+export interface Project {
+  id: string;
+  slug: { current: string } | string;
   title: string;
-  slug: { current: string };
   subtitle?: string;
+  subtitleItalic?: string;
+  eyebrow?: string;
   category?: string;
   year?: string;
   role?: string;
   services?: string;
-  description?: string;
+  description: string;
   mainImage?: any;
-  imageDescription?: string; // Add to schema if needed
-  link?: string;
-  content?: ContentBlock[];
+  imageDescription?: string;
+  accentColor?: string;
+  heroMeta?: MetaItem[];
+  liveLink?: string;
+  liveLinkLabel?: string;
+  content: ContentBlock[];
 }
 
 export interface Experience {
@@ -51,7 +56,7 @@ export interface PhysicsItem {
   type: 'text' | 'icon' | 'image';
   bgColor: string;
   textColor: string;
-  width?: number; // Approximate width for physics body
+  width?: number;
   height?: number;
   rotation?: number;
   isCircle?: boolean;

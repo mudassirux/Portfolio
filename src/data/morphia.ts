@@ -1,4 +1,7 @@
-export const morphiaProjectData = {
+import { Project } from '../types';
+
+export const morphiaProjectData: Project = {
+    id: "p1",
     title: "Morphia",
     slug: { current: "morphia" },
     subtitle: "AI assets without\nthe blank canvas",
@@ -30,8 +33,8 @@ export const morphiaProjectData = {
                 {
                     _type: 'image-full',
                     alt: 'Product overview',
-                    caption: 'Insert hero screenshot of the Morphia interface',
-                    image: '', // Needs a real image URL
+                    caption: 'Morphia Interface — Style Selection and Generation Preview',
+                    image: '/morphia/Overview.png',
                 }
             ]
         },
@@ -126,8 +129,8 @@ export const morphiaProjectData = {
                 {
                     _type: 'image-grid',
                     images: [
-                        { url: '' }, // Image 1
-                        { url: '' }, // Image 2
+                        { image: '/morphia/Subject_Selection.png', alt: 'Morphia Subject Selection' },
+                        { image: '/morphia/Generation_Result.png', alt: 'Morphia Generation Result' },
                     ]
                 }
             ]
@@ -164,8 +167,8 @@ export const morphiaProjectData = {
                 {
                     _type: 'image-full',
                     alt: 'Design system',
-                    caption: 'Insert: Component library or Figma overview screenshot',
-                    image: '', // Image
+                    caption: 'Morphia Design System — Tokens, Typography, and Components',
+                    image: '/morphia/Design_System.png',
                 }
             ]
         },

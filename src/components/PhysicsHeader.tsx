@@ -224,6 +224,10 @@ const PhysicsHeader: React.FC<PhysicsHeaderProps> = ({ isDarkMode }) => {
             bgColor = '#18181B';
             textColor = '#FFFFFF';
             borderColor = '#FFFFFF';
+          } else if (item.id === '5') {
+            bgColor = '#F7F7F5';
+            textColor = '#18181B';
+            borderColor = '#F7F7F5';
           } else if (item.id === '6') {
             borderColor = '#FFFFFF';
           }
@@ -269,7 +273,7 @@ const PhysicsHeader: React.FC<PhysicsHeaderProps> = ({ isDarkMode }) => {
             {item.type === 'text' && <span>{item.text}</span>}
 
             {/* Green Asterisk */}
-            {item.type === 'icon' && item.bgColor === '#a3e635' && !item.imageUrl && (
+            {item.type === 'icon' && item.id === '5' && !item.imageUrl && (
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="square" strokeLinejoin="miter" className="w-5 h-5 md:w-10 md:h-10">
                 <path d="M12 2 L12 12 M21.51 8.91 L12 12 M17.88 20.09 L12 12 M6.12 20.09 L12 12 M2.49 8.91 L12 12" />
               </svg>

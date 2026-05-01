@@ -6,7 +6,7 @@ export const HERO_PHYSICS_ITEMS: PhysicsItem[] = [
   { id: '2', text: 'PRODUCT DESIGNER 🧑‍🎨', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', rotation: 15, width: 220 },
   { id: '3', text: 'BLR 📍', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', width: 100 },
   { id: '4', text: 'CO-FOUNDER @ MORPHIA ', type: 'text', bgColor: '#FFFFFF', textColor: '#000000', rotation: -10, width: 210 },
-  { id: '5', type: 'icon', bgColor: '#a3e635', textColor: '#FFFFFF', isCircle: true, width: 80, height: 80 },
+  { id: '5', type: 'icon', bgColor: '#18181b', textColor: '#FFFFFF', isCircle: true, width: 80, height: 80 },
   {
     id: '6',
     type: 'icon',
@@ -42,24 +42,23 @@ export const PROJECTS: Project[] = [
     role: 'Lead Designer, Co-founder',
     services: 'UI Animation, Type Designer',
     imageDescription: 'UI minimalistic widgets interface',
-    imageUrl: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop',
-    link: '#n1-widgets', // Legacy support
+    mainImage: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop',
     description: 'It is an AI-powered image generator that creates ads, portraits, illustrations, icons and product visuals from simple text prompts. It gives you complete control over colors, styles, and aspect ratios, so every image fits your brand and your layout.',
     content: [
       {
-        type: 'image-grid',
+        _type: 'image-grid',
         images: [
           'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop',
           'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop'
         ]
       },
       {
-        type: 'split-text',
+        _type: 'split-text',
         label: 'About',
         body: 'This project is entirely independent. I deeply admire the teams at Nothing and their approach to technology. This concept explores how their design philosophy could extend into a wider widget ecosystem, focusing on raw functionality and dot-matrix aesthetics.'
       },
       {
-        type: 'gallery',
+        _type: 'gallery',
         images: [
           'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop',
           'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
@@ -81,8 +80,7 @@ export const PROJECTS: Project[] = [
     role: 'Lead Designer',
     services: 'Brand Identity',
     imageDescription: 'Laptop displaying H32 logo',
-    imageUrl: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=2070&auto=format&fit=crop',
-    link: '#h23',
+    mainImage: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=2070&auto=format&fit=crop',
     description: 'A bold new identity for H23.',
     content: []
   },
@@ -96,8 +94,7 @@ export const PROJECTS: Project[] = [
     role: 'Packaging Designer',
     services: '3D Modeling, Print Design',
     imageDescription: 'Packaging design for Glod Water',
-    imageUrl: 'https://images.unsplash.com/photo-1603565017255-e7d6928e4618?q=80&w=2069&auto=format&fit=crop',
-    link: '#glodwater',
+    mainImage: 'https://images.unsplash.com/photo-1603565017255-e7d6928e4618?q=80&w=2069&auto=format&fit=crop',
     description: 'Luxury water packaging design.',
     content: []
   },
@@ -139,7 +136,6 @@ export const EXPERIENCES: Experience[] = [
 ];
 
 export const SOCIAL_LINKS = [
-  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/mudassirux/' },
-  { name: 'Gmail', url: 'mailto:ansarimudassir18@gmail.com' },
-  { name: 'X', url: '#' },
+  { name: 'EMAIL', url: 'mailto:ansarimudassir18@gmail.com' },
+  { name: 'LINKEDIN', url: 'https://www.linkedin.com/in/mudassirux/' },
 ];

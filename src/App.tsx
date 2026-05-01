@@ -1,62 +1,42 @@
 
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { EXPERIENCES, PROJECTS } from './constants';
-import { client, urlFor } from './client';
+import { EXPERIENCES } from './constants';
+import { PROJECTS } from './data/projects';
 import PhysicsHeader from './components/PhysicsHeader';
 import ProjectCard from './components/ProjectCard';
 import Footer from './components/Footer';
 import { ArrowRight, Download, Moon, Sun } from 'lucide-react';
 
 const ProjectDetail = lazy(() => import('./components/ProjectDetail'));
-const StudioPage = lazy(() => import('./components/StudioPage'));
 
 const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDarkMode, toggleTheme }) => {
-  const [projects, setProjects] = useState<any[]>([]);
+  const projects = PROJECTS;
   const layoutContainer = 'w-full px-4 md:px-10 xl:px-[64px]';
-  const sectionSpacing = 'py-24 md:py-32';
-  const metaLabelClass = 'font-secondary text-xs uppercase tracking-[0.18em] text-zinc-500 dark:text-[#71717A]';
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const query = `*[_type == "project"] | order(year desc)`;
-        const data = await client.fetch(query);
-        if (data && data.length > 0) {
-          setProjects(data);
-        } else {
-          setProjects(PROJECTS);
-        }
-      } catch (error) {
-        console.error("Error fetching projects, falling back to local data:", error);
-        setProjects(PROJECTS);
-      }
-    };
-    fetchProjects();
-  }, []);
+  const metaLabelClass = 'text-[11px] font-mono uppercase tracking-[0.15em] text-ink-secondary';
 
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#18181B] text-zinc-900 dark:text-[#FFFFFF] selection:bg-zinc-900 selection:text-white dark:selection:bg-white dark:selection:text-zinc-900 font-sans relative transition-colors duration-300">
+    <div className="min-h-screen bg-bg-page text-ink selection:bg-ink selection:text-bg-page font-sans relative transition-colors duration-300">
 
-      {/* Navigation - Absolute positioning to scroll with page */}
-      <nav className="absolute top-0 left-0 w-full z-50 pointer-events-none pt-6 md:pt-10 xl:pt-[64px] pb-5 md:pb-6">
+      {/* Navigation - Sticky positioning with backdrop blur */}
+      <nav className="sticky top-0 left-0 w-full z-50 bg-bg-page/85 backdrop-blur-md border-b border-ink/5 py-4 transition-colors duration-300">
         <div className={`${layoutContainer} flex justify-between items-center`}>
           <a
-            href="mailto:ansarimudassir18@gmail.com"
-            className="pointer-events-auto flex items-center justify-center w-16 h-16 rounded-full bg-zinc-900 dark:bg-[#FFFFFF] text-white dark:text-zinc-900 font-semibold text-2xl"
+            href="/"
+            className="pointer-events-auto flex items-center justify-center w-10 h-10 rounded-full bg-ink text-bg-page font-normal text-lg"
           >
             M
           </a>
           <button
             onClick={toggleTheme}
-            className="pointer-events-auto cursor-pointer group p-2 rounded-full bg-zinc-100 dark:bg-[#27272A] hover:bg-zinc-200 dark:hover:bg-[#3f3f46] transition-colors"
+            className="pointer-events-auto cursor-pointer group p-2 rounded-full bg-bg-card hover:opacity-80 transition-opacity"
             aria-label="Toggle Dark Mode"
           >
             {isDarkMode ? (
-              <Sun size={20} className="text-[#FFFFFF]" />
+              <Sun size={20} className="text-ink" />
             ) : (
-              <Moon size={20} className="text-zinc-900" />
+              <Moon size={20} className="text-ink" />
             )}
           </button>
         </div>
@@ -70,8 +50,7 @@ const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDa
           <div className="absolute bottom-0 left-0 w-full z-10 pt-[5px] pb-[30px] text-center select-none pointer-events-none">
             <div id="hero-text-container" className={`${layoutContainer} flex justify-center`}>
               <h1
-                className="w-fit mx-auto text-[15vw] xl:text-[14.5vw] leading-[0.8] font-semibold tracking-tighter uppercase text-zinc-900 dark:text-[#FFFFFF] whitespace-nowrap transition-colors duration-300"
-                style={{ fontFamily: '"Space Grotesk", sans-serif' }}
+                className="w-fit mx-auto text-[15vw] xl:text-[14.5vw] leading-[0.8] font-semibold tracking-tighter uppercase text-ink whitespace-nowrap transition-colors duration-300 font-grotesk"
               >
                 MD MUDASSIR
               </h1>
@@ -90,10 +69,10 @@ const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDa
         <section className="w-full mt-0 mb-16 md:mb-24">
           <div className={layoutContainer}>
             {projects.length > 0 && (
-              <div className="w-full aspect-[16/10] bg-zinc-100 dark:bg-[#27272A] rounded-[5px] overflow-hidden hover:scale-[1.01] transition-transform duration-700 ease-out">
+              <div className="w-full aspect-[16/10] bg-bg-card rounded-[5px] overflow-hidden hover:scale-[1.01] transition-transform duration-700 ease-out">
                 {projects[0].mainImage && (
                   <img
-                    src={urlFor(projects[0].mainImage).width(3840).quality(100).fit('max').auto('format').url()}
+                    src={typeof projects[0].mainImage === 'string' ? projects[0].mainImage : (projects[0].mainImage?.url || '')}
                     alt={projects[0].title || "Featured Project"}
                     className="w-full h-full object-cover"
                   />
@@ -108,18 +87,16 @@ const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDa
           <div className={layoutContainer}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-[40px] md:gap-x-[32px]">
               <div className="flex flex-col justify-start">
-                <h2 className="text-4xl md:text-5xl lg:text-[56px] font-medium leading-[1.1] mb-8 tracking-tight max-w-[12em] text-zinc-900 dark:text-[#FFFFFF]">
+                <h2 className="text-4xl md:text-[3rem] font-dm-serif font-normal leading-[1.15] mb-8 tracking-tight max-w-[12em] text-ink">
                   Hi, I'm Mudassir. I turn "wild ideas" into things that actually work.
                 </h2>
-                {/* Divider line */}
-                <div className="w-24 h-1 bg-zinc-900 dark:bg-[#FFFFFF] mb-0 lg:mb-8 transition-colors duration-300"></div>
               </div>
               <div className="flex flex-col justify-between pt-0">
-                <p className="text-lg md:text-[24px] text-zinc-900 dark:text-[#E4E4E7] leading-relaxed font-light tracking-tight mb-10 transition-colors duration-300">
+                <p className="text-[1.125rem] font-sans font-light text-ink leading-relaxed tracking-tight mb-10 transition-colors duration-300">
                   Product Designer just trying to make tech less confusing. I've taken startups from zero assets to investor-ready MVPs and built AI interfaces that cure "blank canvas paralysis".
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <a href="#experiences" className="group flex items-center gap-2 px-6 py-3 bg-zinc-900 dark:bg-[#FFFFFF] text-white dark:text-[#18181B] rounded-full hover:bg-zinc-800 dark:hover:bg-[#E4E4E7] transition-all font-medium text-[15px]">
+                  <a href="#experiences" className="group flex items-center gap-2 px-6 py-3 bg-ink text-bg-page rounded-full hover:opacity-80 transition-all font-medium text-[15px]">
                     About Me
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </a>
@@ -127,7 +104,7 @@ const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDa
                     href="https://www.linkedin.com/in/mudassirux/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-2 px-6 py-3 border border-zinc-200 dark:border-[#3f3f46] rounded-full hover:border-zinc-900 dark:hover:border-[#FFFFFF] transition-all font-medium bg-white dark:bg-[#18181B] dark:text-[#FFFFFF] text-[15px]"
+                    className="group flex items-center gap-2 px-6 py-3 border border-ink/20 hover:border-ink rounded-full transition-all font-medium bg-bg-card text-ink text-[15px]"
                   >
                     Resume
                     <Download size={16} className="group-hover:translate-y-1 transition-transform" />
@@ -142,8 +119,8 @@ const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDa
         <section className={`w-full`}>
           <div className={layoutContainer}>
             <div className="pt-[90px] pb-[30px] mb-[64px] flex flex-col md:flex-row justify-between items-baseline transition-colors duration-300">
-              <h2 className="text-4xl md:text-5xl lg:text-[56px] font-medium tracking-tight text-zinc-900 dark:text-[#FFFFFF]">Case Study</h2>
-              <span className={`${metaLabelClass} mt-3 md:mt-0 font-medium`}>2021 — 2024</span>
+              <h2 className="text-4xl md:text-[3rem] font-dm-serif font-normal tracking-tight text-ink">Selected Work</h2>
+              <span className={`${metaLabelClass} mt-3 md:mt-0 font-medium`}>2024 — 2025</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[32px] gap-y-[64px]">
@@ -155,27 +132,28 @@ const Home: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDa
         </section>
 
         {/* Experience Section */}
-        <section id="experiences" className={`w-full bg-white dark:bg-[#18181B] transition-colors duration-300`}>
+        <section id="experiences" className={`w-full bg-bg-page transition-colors duration-300`}>
           <div className={layoutContainer}>
             <div className="pt-[90px] pb-[30px] mb-[64px] flex flex-col md:flex-row justify-between items-baseline transition-colors duration-300">
-              <h2 className="text-4xl md:text-5xl lg:text-[56px] font-medium tracking-tight text-zinc-900 dark:text-[#FFFFFF]">Experiences</h2>
+              <h2 className="text-4xl md:text-[3rem] font-dm-serif font-normal tracking-tight text-ink">Experiences</h2>
             </div>
             <div className="flex flex-col">
               {EXPERIENCES.map((exp, index) => (
                 <div key={index} className={`group flex flex-col ${index === 0 ? 'pb-10 md:pb-12 pt-0' : 'py-10 md:py-12'} transition-colors`}>
                   {/* Header Row */}
                   <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-6 md:mb-8">
-                    <h3 className="text-[21px] md:text-2xl font-medium text-zinc-900 dark:text-[#FFFFFF] mb-2 md:mb-0">
-                      {exp.role}, <span className="text-zinc-500 dark:text-[#A1A1AA] font-normal">{exp.company}</span>
+                    <h3 className="text-[21px] md:text-2xl font-medium text-ink mb-2 md:mb-0">
+                      {exp.role}, <span className="text-ink-secondary font-normal">{exp.company}</span>
                     </h3>
                     <span className={`${metaLabelClass} font-medium whitespace-nowrap`}>{exp.year}</span>
                   </div>
 
                   {/* Description List */}
-                  <ul className="list-disc pl-5 space-y-3">
+                  <ul className="space-y-3 pl-0">
                     {exp.description && exp.description.map((point, i) => (
-                      <li key={i} className="text-[15px] md:text-[17px] text-zinc-500 dark:text-[#A1A1AA] leading-relaxed pl-2 font-normal">
-                        {point}
+                      <li key={i} className="flex items-start text-[15px] md:text-[17px] text-ink-secondary leading-relaxed font-normal">
+                        <span className="mr-3 shrink-0 text-ink-secondary/60 select-none">—</span>
+                        <span>{point}</span>
                       </li>
                     ))}
                   </ul>
@@ -216,8 +194,8 @@ const App: React.FC = () => {
       <div className={isDarkMode ? 'dark' : ''}>
         <Suspense
           fallback={
-            <div className="min-h-screen bg-white dark:bg-[#18181B] text-zinc-900 dark:text-[#FFFFFF] flex items-center justify-center font-sans transition-colors duration-300">
-              <div className="text-sm font-secondary uppercase tracking-[0.18em] text-zinc-500 dark:text-[#71717A]">
+            <div className="min-h-screen bg-bg-page text-ink flex items-center justify-center font-sans transition-colors duration-300">
+              <div className="text-sm uppercase tracking-[0.18em] text-ink-secondary">
                 Loading
               </div>
             </div>
@@ -226,7 +204,6 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home isDarkMode={isDarkMode} toggleTheme={toggleTheme} />} />
             <Route path="/works/:slug" element={<ProjectDetail />} />
-            <Route path="/studio/*" element={<StudioPage />} />
           </Routes>
         </Suspense>
       </div>

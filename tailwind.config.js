@@ -8,11 +8,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"'],
-        secondary: ['Manrope', 'sans-serif'],
-        mono: ['Space Mono', 'monospace'],
-        'dm-sans': ['"DM Sans"', 'sans-serif'],
+        sans: ['"DM Sans"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
         'dm-serif': ['"DM Serif Display"', 'serif'],
+        'grotesk': ['"Space Grotesk"', 'sans-serif'],
+        mono: ['"Space Mono"', 'monospace'],
+      },
+      colors: {
+        ink: 'var(--ink)',
+        'ink-secondary': 'var(--ink-secondary)',
+        'bg-page': 'var(--bg-page)',
+        'bg-card': 'var(--bg-card)',
       },
       animation: {
         'infinite-scroll': 'infinite-scroll 25s linear infinite',
